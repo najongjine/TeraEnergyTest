@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.biz.tour.dao.TeraDao">
+
+	<select id="getMusicChById" resultType="musicChVO">
+		SELECT
+		*
+		FROM tbl_music_ch
+		WHERE id=#{id}
+	</select>
+	<select id="cntMusicChList" resultType="int">
+		SELECT
+		COUNT(*)
+		FROM tbl_music_ch
+	</select>
+	<select id="getMusicChList" resultType="musicChVO">
+		SELECT
+		*
+		FROM tbl_music_ch
+		ORDER BY created_at DESC
+		LIMIT #{pageIndex}, #{itemsPerpage}
+	</select>
+	
+	<select id="getMyList" parameterType="musicChMylistVO" resultType="musicChMylistVO">
+		<![CDATA[
+		SELECT
+		mylist.id
+		,mylist.music_ch_id
+		,mc.title
+		,mc.created_at
+		,mc.author
+		,mc.uploaded_pic
+		,mylist.iorder
+		FROM tbl_music_ch_mylist as mylist
+		JOIN tbl_music_ch as mc ON mc.id=mylist.music_ch_id
+		WHERE mylist.member_id = #{member_id}
+		ORDER BY mylist.iorder 
+		LIMIT #{pageIndex}, #{itemsPerpage}
+		]]>
+	</select>
+	<select id="cntMyList" parameterType="musicChMylistVO" resultType="int">
+		<![CDATA[
+		SELECT
+		COUNT(*)
+		FROM tbl_music_ch_mylist as mylist
+		WHERE mylist.member_id = #{member_id}
+		]]>
+	</select>
+	
+	<select id="getMusicFromMylist" parameterType="musicChMylistVO" resultType="musicChMylistVO">
+		<![CDATA[
+		SELECT
+		mylist.id
+		,mylist.music_ch_id
+		,mc.title
+		,mc.created_at
+		,mc.author
+		,mc.uploaded_pic
+		,mylist.iorder
+		FROM tbl_music_ch_mylist as mylist
+		JOIN tbl_music_ch as mc ON mc.id=mylist.music_ch_id
+		WHERE mylist.member_id = #{member_id}
+		AND mylist.id = #{id}
+		LIMIT 1
+		]]>
+	</select>
+	<select id="getNextMusicFromMylist" parameterType="musicChMylistVO" resultType="musicChMylistVO">
+		<![CDATA[
+		SELECT
+		mylist.id
+		,mylist.music_ch_id
+		,mc.title
+		,mc.created_at
+		,mc.author
+		,mc.uploaded_pic
+		,mylist.iorder
+		FROM tbl_music_ch_mylist as mylist
+		JOIN tbl_music_ch as mc ON mc.id=mylist.music_ch_id
+		WHERE mylist.member_id = #{member_id}
+		AND mylist.iorder = (
+			SELECT MIN(iorder) FROM tbl_music_ch_mylist
+			WHERE
+			member_id = #{member_id}  
+			AND iorder > #{iorder}
+			LIMIT 1
+		)
+		LIMIT 1
+		]]>
+	</select>
+	<select id="getPrevMusicFromMylist" parameterType="musicChMylistVO" resultType="musicChMylistVO">
+		<![CDATA[
+		SELECT
+		mylist.id
+		,mylist.music_ch_id
+		,mc.title
+		,mc.created_at
+		,mc.author
+		,mc.uploaded_pic
+		,mylist.iorder
+		FROM tbl_music_ch_mylist as mylist
+		JOIN tbl_music_ch as mc ON mc.id=mylist.music_ch_id
+		WHERE mylist.member_id = #{member_id}
+		AND mylist.iorder = (
+			SELECT MAX(iorder) FROM tbl_music_ch_mylist
+			WHERE
+			member_id = #{member_id}  
+			AND iorder < #{iorder}
+			LIMIT 1
+		)
+		LIMIT 1
+		]]>
+	</select>
+	<select id="getMinOrderMusicFromMylist" parameterType="musicChMylistVO" resultType="musicChMylistVO">
+		<![CDATA[
+		SELECT
+		mylist.id
+		,mylist.music_ch_id
+		,mc.title
+		,mc.created_at
+		,mc.author
+		,mc.uploaded_pic
+		,mylist.iorder
+		FROM tbl_music_ch_mylist as mylist
+		JOIN tbl_music_ch as mc ON mc.id=mylist.music_ch_id
+		WHERE mylist.member_id = #{member_id}
+		AND mylist.iorder = (
+			SELECT MIN(iorder) FROM tbl_music_ch_mylist
+			WHERE
+			member_id = #{member_id}  
+			LIMIT 1
+		)
+		LIMIT 1
+		]]>
+	</select>
+	<select id="getMaxOrderMusicFromMylist" parameterType="musicChMylistVO" resultType="musicChMylistVO">
+		<![CDATA[
+		SELECT
+		mylist.id
+		,mylist.music_ch_id
+		,mc.title
+		,mc.created_at
+		,mc.author
+		,mc.uploaded_pic
+		,mylist.iorder
+		FROM tbl_music_ch_mylist as mylist
+		JOIN tbl_music_ch as mc ON mc.id=mylist.music_ch_id
+		WHERE mylist.member_id = #{member_id}
+		AND mylist.iorder = (
+			SELECT MAX(iorder) FROM tbl_music_ch_mylist
+			WHERE
+			member_id = #{member_id}  
+			LIMIT 1
+		)
+		LIMIT 1
+		]]>
+	</select>
+	<select id="getChInMyList" parameterType="musicChMylistVO" resultType="musicChMylistVO">
+		<![CDATA[
+		SELECT
+		*
+		FROM tbl_music_ch_mylist as mylist
+		WHERE music_ch_id = #{music_ch_id}
+		AND member_id = #{member_id}
+		LIMIT 1
+		]]>
+	</select>
+
+	<insert id="insertMusicCh" parameterType="musicChVO" useGeneratedKeys="true" keyProperty="id">
+		insert into
+		tbl_music_ch(
+		title
+		,author
+		,uploaded_pic
+		,original_pic
+		) values (
+		#{title,jdbcType=VARCHAR},
+		#{author,jdbcType=VARCHAR},
+		#{uploaded_pic,jdbcType=VARCHAR},
+		#{original_pic,jdbcType=VARCHAR}
+		)
+	</insert>
+	<update id="updateMusicCh" parameterType="musicChVO" useGeneratedKeys="true" keyProperty="id">
+		UPDATE
+		tbl_music_ch
+		SET
+		title = #{title,jdbcType=VARCHAR}
+		WHERE id = #{id}
+	</update>
+	<update id="updateMusicChPosterFile" parameterType="musicChVO">
+		UPDATE
+		tbl_music_ch
+		SET
+		uploaded_pic = #{uploaded_pic,jdbcType=VARCHAR},
+		original_pic = #{original_pic,jdbcType=VARCHAR}
+		WHERE id = #{id}
+	</update>
+	<update id="updateMusicChVideoFile" parameterType="musicChVO">
+		UPDATE
+		tbl_music_ch
+		SET
+		uploaded_filename = #{uploaded_filename,jdbcType=VARCHAR},
+		original_filename = #{original_filename,jdbcType=VARCHAR}
+		WHERE id = #{id}
+	</update>
+	<insert id="insertMusicChVideos" parameterType="musicChVideosVO" >
+		insert into
+		tbl_music_ch_videos(
+		musicch_id
+		,iorder
+		,uploaded_filename
+		,original_filename
+		
+		) values (
+		#{musicch_id,jdbcType=VARCHAR},
+		(SELECT IFNULL(MAX(TS.iorder)+1,1) FROM tbl_music_ch_videos TS where musicch_id = #{musicch_id,jdbcType=VARCHAR}),
+		#{uploaded_filename,jdbcType=VARCHAR},
+		#{original_filename,jdbcType=VARCHAR}
+		)
+	</insert>
+	<insert id="insertMusicChMylist" parameterType="musicChMylistVO" >
+		insert into
+		tbl_music_ch_mylist(
+		member_id
+		,iorder
+		,music_ch_id
+		) values (
+		#{member_id,jdbcType=VARCHAR},
+		(SELECT IFNULL(MAX(TS.iorder)+1,1) FROM tbl_music_ch_mylist TS where TS.member_id = #{member_id,jdbcType=VARCHAR}),
+		#{music_ch_id,jdbcType=VARCHAR}
+		)
+	</insert>
+	<delete id="deleteMusicCh" parameterType="musicChVideosVO">
+		DELETE
+		FROM tbl_music_ch
+		WHERE id=#{id}
+	</delete>
+	<delete id="deleteMyListChBychid" parameterType="musicChMylistVO">
+		DELETE
+		FROM tbl_music_ch_mylist
+		WHERE member_id=#{member_id,jdbcType=VARCHAR}
+		AND music_ch_id=#{music_ch_id,jdbcType=VARCHAR}
+	</delete>
+	<delete id="deleteMyListChByiorder" parameterType="musicChMylistVO">
+		DELETE
+		FROM tbl_music_ch_mylist
+		WHERE member_id=#{member_id,jdbcType=VARCHAR}
+		AND iorder=#{iorder,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertVisitedPpl" parameterType="visitedVO">
+		INSERT IGNORE INTO tbl_visit (ip,idate)
+		VALUES(
+		#{ip,jdbcType=VARCHAR}
+		,DATE(NOW())
+		)
+	</insert>
+	
+</mapper> 

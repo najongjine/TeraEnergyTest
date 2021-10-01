@@ -1,0 +1,10 @@
+CREATE TABLE tbl_naverapi(
+
+id bigint PRIMARY KEY auto_increment,
+title VARCHAR(500) unique,
+link VARCHAR(1000),
+description VARCHAR(2000),
+thumbnail VARCHAR(1000),
+isfullinfo boolean
+
+);

@@ -1,0 +1,158 @@
+
+DB테이블 만들기 
+
+1. naver api용 vo만들기(o)
+
+++(DB 이름 비교 matching select ) 있으면 db 데이터 가져오고 없으면 다음 진행?
+
+2. naver api 결과 데이터를 list<vo> naverapiList 에 전부 저장(o)
+
+
+
+3. 해양생물네임리스트 marineList(i) 와 naverapiList(i) 를 서로 비교  (marinList(i).get생물네임 비교 naverapiList(i).getTitle)(o)
+4. 이름이 같으면 naverapiList의 title(생물이름), 설명, 이미지링크를 최종해양생물 테이블에 저장(api response 자체에 이미지 링크가 없는 경우도 대비)
+4-1. 이름이 같지 않으면 naverapiList title을 marineList(i).get생물이름으로 변경   DB에 저장(이미지 링크는 없애고)
+
+
+
+
+
+
+naverAPI response 자체에 데이터가 불완전한 경우가 있음 (description, thumbnail 등 결여)
+
+
+-------------------------------------------------------------------------------------------------
+
+
+
+
+
+details 페이지 접속하면 바로 ajax 호출해서 해양생물 view용 html붙이기(기존 details 페이지에서 작업)
+삽입된 html페이지가 열리면 바로 ajax 호출해서  details 페이지의 위도 경도를 넘긴 뒤 ajax 결과값으로 list 받음
+ajax로 받은 list append로 jstl노가다
+
+
+
+
+
+
+
+$.ajax({
+
+	url: "${rootPath}/marinelifeapi/marinedetailpage", type:'get',
+	success:function(result){
+		
+	},error:function(){
+		alert('서버 에러')
+	}
+
+})
+
+
+
+
+
+=============================================================================
+
+
+
+
+-bootstrap tooltip cumstom
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h3>Tooltip Example</h3>
+  <div class="toggle" data-toggle="tooltip" title="Hooray!">Hover over me</div>
+</div>
+
+<script>
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();   
+});
+</script>
+
+<style>
+
+
+.toggle{
+	width:5%;
+}
+
+.tooltip-inner{
+	position:inherit;
+    color:red;
+    
+}
+</style>
+
+</body>
+</html>
+
+-----------------------------------------------------------------------------------------------------------------------------------
+
+
+
+- 자바스크립트 페이징
+
+var totalData = marinList.length // 총 데이터 수
+var dataPerPage = 10 // 한 페이지에 나타낼 데이터 수
+var pageCount = 5 // 한 화면에 나타낼 페이지 수
+var currentPage = 0
+
+function paging(totalData, dataPerPage, pageCount, currentPage){
+
+	var totalPage = Math.ceil(totalData/dataPerPage) // 총 페이지 수
+	var pageGroup = Math.ceil(currentPAge/pageCount // 페이지 그룹 블럭?
+
+	
+	var last = pageGroup * pageCount	// 화면에 보일 마지막 페이지 번호
+	if(last > totalPage)
+		last = totalPage
+	var first = last - (pageCount-1)	// 화면에 보일 첫 번째 페이지 번호
+	var next = last+1
+	var prev = first-1
+
+
+}
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+
+preBtn 막히는 경우: curPage 1일 때,
+nextBtn 막히는 경우: curPage가 totalPage보다 클 때
+
+
+94개일 때
+index 0 ~ 93
+1페이지 index 0 ~ 9    cur 1
+2페이지 index 10 ~ 19  cur 2
+시작index = cur-1 x 10  
+마지막index = 시작index+9
+
+
+
+-------------------------------------------------------------------------
+
+수정된 클래스
+MarineLifeAPIController
+marine_detail.jsp
+
+servlet-context namespace에서 websocket bean추가 후 bean에 echohandler class 
+com.biz.tour 패키지에 EchoHandler class 추가
+(include 폴더에 socket-chat.jsp 추가하고 fishMain에서 include)
+fishDetail.jsp에 sockjs cdn 넣어줘야 함

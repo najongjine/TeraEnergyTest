@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/security https://www.springframework.org/schema/security/spring-security-4.2.xsd">
+
+	<context:component-scan
+		base-package="com.biz.tour.service.member.auth" />
+	<bean id="authProvider"
+		class="com.biz.tour.service.member.auth.AuthProviderImpl" />
+
+	<security:authentication-manager>
+		<security:authentication-provider
+			ref="authProvider" />
+	</security:authentication-manager>
+
+	<bean id="grantedAuthorityDefaults"
+		class="org.springframework.security.config.core.GrantedAuthorityDefaults">
+		<constructor-arg value="ROLE_"></constructor-arg>
+	</bean>
+
+	<!-- 사용자 인증을 할때 우리가 만든 login form과 연동하기 위한설정 <security:csrf disabled="true"/> 
+		post 방식으로 서버에 데이터를 전송할때 반드시 서버가 제공한 인증관련 token을 포함해라 logout-url="/logout" 
+		spring sec가 제공하는 logout 기능을 사용하겠다. auto-config="true": form 기반 로그인, 기본인증 
+		기본 로그인 활성화 use-expressions="true" : 함수기반 표현식을 사용할수 있다 intercept-url access="hasRole()": 
+		해당하는 권한이 있는 경우에는 url로 접근을 허락하고 그렇기 않으면(no login|no auth) login 화면으로 redirect. 
+		한가지의 권한만 체크. access="hasAnyRole()":두가지 이상의 권한중 한가지라도 일치하는지 체크 -->
+	<security:http auto-config="true" use-expressions="true">
+		<security:csrf disabled="false" />
+
+		<security:intercept-url pattern="/**"
+			access="permitAll()" />
+			
+		<security:form-login login-page="/member/login"
+			login-processing-url="" default-target-url=""
+			username-parameter="username" password-parameter="password" />
+		<security:logout logout-url="/logout"
+			invalidate-session="true" delete-cookies="true"
+			logout-success-url="/" />
+	</security:http>
+</beans>

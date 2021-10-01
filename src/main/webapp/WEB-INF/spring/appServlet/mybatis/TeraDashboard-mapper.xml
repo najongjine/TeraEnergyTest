@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.biz.tour.dao.TeraDashboardDao">
+
+	<select id="getDailyCon" resultType="visitedVO">
+		SELECT 
+		COUNT(*) cnt
+		,DATE_ADD(DATE(NOW()), INTERVAL - #{intday} DAY) idate
+		FROM tbl_visit TS 
+		WHERE DATE(TS.idate) = DATE_ADD(DATE(NOW()), INTERVAL -#{intday} DAY) 
+	</select>
+	<select id="getTotalUserCnt" resultType="int">
+		SELECT 
+		COUNT(*) cnt
+		FROM tbl_visit TS 
+	</select>
+	<select id="getTotalMusicCh" resultType="int">
+		SELECT 
+		COUNT(*) cnt
+		FROM tbl_music_ch TS 
+	</select>
+	
+</mapper> 

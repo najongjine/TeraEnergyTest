@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.biz.tour.dao.member.MemberDao">
+
+	<insert id="insert" parameterType="memberVO" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO
+		`tbl_members`
+		(
+		`username`,
+		`password`
+		,enabled)
+		VALUES
+		(
+		#{username},
+		#{password}
+		,#{enabled});
+
+	</insert>
+
+	<update id="update" parameterType="memberVO" useGeneratedKeys="true" keyProperty="id">
+		UPDATE `tbl_members`
+		SET
+		`username` = #{username},
+		`email` = #{email},
+		`phone` = #{phone},
+		`address` = #{address},
+		`profile_pic`=#{profile_pic},
+		`u_date` = #{u_date},
+		`point` = #{point},
+		`enabled` = #{enabled}
+		WHERE `id` = #{id}
+
+	</update>
+	
+	<select id="findByUserEmail" resultType="memberVO">
+ 		SELECT
+ 		id,
+ 		 username,
+ 		 enabled,
+ 		 email,
+ 		 phone,
+ 		 address 
+ 		 FROM tbl_members WHERE email = #{email}
+ 	</select>
+ 	
+ 	<!-- email로 ID찾기/비번변경 맵퍼 -->
+ 	<update id="re_update" parameterType="memberVO" useGeneratedKeys="true" keyProperty="id">
+		UPDATE `tbl_members`
+		SET
+		`username` = #{username},
+		`password` = #{password},
+		`email` = #{email},
+		`phone` = #{phone},
+		`address` = #{address},
+		`enabled` = #{enabled}
+		WHERE `id` = #{id}
+
+	</update>
+	
+	<update id="date_update" parameterType="memberVO" useGeneratedKeys="true" keyProperty="id">
+		UPDATE `tbl_members`
+		SET
+		`u_date` = #{u_date},
+		`point` = #{point}
+		WHERE `id` = #{id}
+
+	</update>
+	
+
+</mapper> 

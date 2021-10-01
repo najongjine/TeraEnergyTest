@@ -1,0 +1,8 @@
+jsp 페이를 프론트로 두고 노드를 서버로 쓸경우:
+ <form action="http://localhost:3000/dummy1">
+ <a href="http://localhost:3000/dummy1?dummy1=dummy1">dummy1</a>
+ 이런식으로 해주면 된다.
+ 
+ 
+ footer 필요함
+

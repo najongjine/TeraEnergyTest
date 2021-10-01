@@ -1,0 +1,27 @@
+http://apis.data.go.kr/B551979/marineOrganismInhabitInfoService/getHabitatGisList?ServiceKey=2D5rJ2dlm%2BXKIkVprSSgKI0HU08V%2FYBLqD8l%2Furac2yM3d8LozeI%2BZJmfDX9%2BsAZY7abFzCGzXhRWQL%2BcQdgSA%3D%3D&pageNo=1&numOfRows=1&_type=json
+
+
+
+
+
+
+
+
+
+
+장소(하나)						생물(여러개)
+mapx,mapy(degree)				mapx,mapy(dms)
+
+
+							생물
+						mapx,mapy(dms) -> mapx,mapy(degree)
+
+
+장소degree       생물degree  비교  아예 같을 수는 없음,  반경으로 계산,  장소degree 기준 반경(radius)
+
+
+-dms to degree 
+degree = Math.signum(d) * (Math.abs(d) + (m / 60.0) + (s / 3600.0));
+
+
+

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.9.12.202003180620-RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+		<config>src/main/webapp/WEB-INF/spring/mybatis-context.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/naver-mail-context.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/appServlet/jaspyt-context.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/appServlet/login-contextBK.xml</config>
+	</configs>
+	<autoconfigs>
+		<config>src/main/webapp/WEB-INF/spring/appServlet/socket-context.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/appServlet/tx-context.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/security-context.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/appServlet/servlet-security-context.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/appServlet/servlet-context.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/fileup-context.xml</config>
+		<config>src/main/webapp/WEB-INF/spring/root-context.xml</config>
+	</autoconfigs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>

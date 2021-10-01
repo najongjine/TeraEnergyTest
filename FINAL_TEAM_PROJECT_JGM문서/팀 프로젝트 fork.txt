@@ -1,0 +1,18 @@
+최초
+repository 접속->fork->clone download(사이트복사)->폴더에서 git bash here-
+
+ git clone https://github.com/najongjine/ForkTest.git
+
+ cd ForkTest/(플젝 폴더로 진입)
+
+ git branch atakage
+
+ git checkout atakage
+
+이후
+
+git add ~ git push -u origin (아이디!!!! master아님) 
+
+이후 깃허브 접속하고 respository에서 branch 탭 pull request(둘 중 아무거나 no상관)
+
+
