@@ -6,6 +6,7 @@
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context-4.3.xsd">
 
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8"></property>
 		<property name="maxUploadSize" value="9922000000"></property>
 		<property name="maxUploadSizePerFile" value="992200000"></property>
 	</bean>

@@ -43,7 +43,7 @@
 			<attribute name="m2e-apt" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="H:/sts-4.11.0.RELEASE/lombok.jar"/>
+	<classpathentry kind="lib" path="C:/JongPark/sts-4.12.0.RELEASE/lombok.jar"/>
 	<classpathentry kind="src" output="target/test-classes" path="target/generated-test-sources/test-annotations">
 		<attributes>
 			<attribute name="optional" value="true"/>

@@ -17,17 +17,17 @@
 	<resources mapping="/js/**" location="/js/" />
 	<resources mapping="/images/**" location="/images/" />
 	<!-- 이 부분은 컨트롤러 이름과 겹치면 안됨. 주소로 접속 가능한 경로임. -->
-	<resources mapping="/files/**" location="file:///H:/BizWork/files/,/files/" />
-	<resources mapping="/pics/**" location="file:///H:/TeraEnergy/pics/,/pics/" />
+	<resources mapping="/files/**" location="file:///C:/JongPark/TeraEnergy/files/" />
+	<resources mapping="/pics/**" location="file:///C:/JongPark/TeraEnergy/pics/" />
 	
 	<beans:bean id="filePath" class="java.lang.String">
-		<beans:constructor-arg value="H:/BizWork/files"/>
+		<beans:constructor-arg value="C:/JongPark/TeraEnergy/files"/>
 	</beans:bean>
 	<beans:bean id="picsPath" class="java.lang.String">
-		<beans:constructor-arg value="H:/TeraEnergy/pics"/>
+		<beans:constructor-arg value="C:/JongPark/TeraEnergy/pics"/>
 	</beans:bean>
 	<beans:bean id="videosPath" class="java.lang.String">
-		<beans:constructor-arg value="H:/TeraEnergy/videos"/>
+		<beans:constructor-arg value="C:/JongPark/TeraEnergy/videos"/>
 	</beans:bean>
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
@@ -37,10 +37,10 @@
 	</beans:bean>
 	
 	<interceptors>
-
-     <beans:bean class="com.biz.tour.Intercepter" />
-
-</interceptors>
+	
+	     <beans:bean class="com.biz.tour.Intercepter" />
+	
+	</interceptors>
 	
 	<context:component-scan base-package="com.biz.tour.controller" />
 	<context:component-scan base-package="com.biz.tour.service" />
